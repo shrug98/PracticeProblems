@@ -1,0 +1,84 @@
+class LRUCache {
+    
+    int capacity; 
+    HashMap<Integer, CacheNode> map = new HashMap<Integer, CacheNode>();
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+    }
+    
+    public int get(int key) {
+        if(map.containsKey(key)){
+            CacheNode node = map.get(key); 
+            remove(node);
+            addAtTop(node); 
+            return node.value; 
+    }
+        return -1; 
+    }
+    
+    
+    public void put(int key, int value) {
+        if(map.containsKey(key)){
+            CacheNode node = map.get(key);
+            node.value = value; 
+            remove(node); 
+        }
+        else {
+            node = new CacheNode(key,value);
+            map.put(key,node);
+            if(map.size()>capacity){
+                map.remove(end.key); //remove least accessed from lru cache
+                remove(end); //remove from list 
+            }
+        }
+        addAtTop(node);
+    }
+    
+     public void remove(CacheNode node){
+        if(node.left == null){
+            start = node.right; 
+        }
+        else if(node.right == null){
+            end = node.left; 
+        }
+         else{
+             node.left.right = node.right;
+             node.right.left = node.left; 
+         }
+    }
+    
+    void addAtTop(CacheNode node){
+        node.left = null; 
+        if(start == null){
+            start = node;
+        }
+        else{
+            start.left = node;
+            node.right = start;
+            start = node; 
+        }
+        if(end == null){
+            end = node; 
+        }
+    }
+    
+    
+}
+
+class CacheNode{
+    CacheNode left = null;
+    CacheNode right = null; 
+    public CacheNode(int key, int value){
+        this.key = key;
+        this.value = value; 
+    }
+    
+   
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
