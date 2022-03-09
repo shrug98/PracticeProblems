@@ -1,3 +1,5 @@
+
+//Unique Email Addresses 
 class Solution {
     public int numUniqueEmails(String[] emails) {
         HashSet<String> uniqueEmail = new HashSet<>();
